@@ -22,7 +22,7 @@ TGIAB FZU TGPHVGHPB FPB GSB BTTBZVB QR F CQQW OPBFG KUBFT FPB SQOLFTS
 ```
 
 ##Output
-The output is actually the resulting set for each letter. For example, there wasn't enought information in the below result to decide if: `QR` is `OF`, `OX`, or `OK`, etc.
+The output is actually the resulting set for each letter. For example, there wasn't enough information in the below result to decide if: `QR` is `OF`, `OX`, or `OK`, etc.
 
 ```
 ['S']['T']['Y']['L']['E']
