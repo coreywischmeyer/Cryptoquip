@@ -1,4 +1,5 @@
-from collections import defaultdict
+#!/usr/bin/python
+import argparse
 
 def pattern(word):
     """
@@ -60,7 +61,7 @@ def propagate(alpha_dict):
                     alpha_dict[j].discard(correct_letter)
     return alpha_dict
 
-def filter_word_list_by_length(ciphertext):
+def filter_word_list_by_length(ciphertext, words_file):
     """
     Return list of words that are the lengths of the words in the ciphertext
     """
@@ -69,7 +70,7 @@ def filter_word_list_by_length(ciphertext):
     for word in  ciphertext.split(" "):
         word_lengths[len(word)] = ""
 
-    word_list = open("words", 'r')
+    word_list = open(words_file, 'r')
     for i in word_list:
         if len(i.rstrip()) in word_lengths:
             word_bank.append(i.rstrip().upper())
@@ -83,8 +84,8 @@ def generate_new_dict(puzzle):
         alpha_dict[character].discard(character)
     return alpha_dict
 
-def get_possible_words(puzzle):
-    word_bank = filter_word_list_by_length(puzzle)
+def get_possible_words(puzzle, words_file):
+    word_bank = filter_word_list_by_length(puzzle, words_file)
     patterned_cipher = {}
     word_choices = {}
     cipher_dict = {}
@@ -103,19 +104,32 @@ def get_possible_words(puzzle):
 
     return word_choices
 
+def get_puzzle(filename):
+    fh = open(filename, 'r')
+    puzzle = ''
+    for line in fh:
+        puzzle += " %s" % line.rstrip()
 
+    return puzzle.strip()
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser(description='Solve your Sunday Cryptoquip!')
 
+    parser.add_argument('puzzle', type=str,
+                        help='A text file that contains your Cryptoquip')
+
+    parser.add_argument('word_list', type=str,
+                        help='A text file list of English words')
+
+    args = parser.parse_args()
     alpha_dict = {}
-
-    puzzle = "TGIAB FZU TGPHVGHPB FPB GSB BTTBZVB QR F CQQW OPBFG KUBFT FPB SQOLFTS"
-
-
+    puzzle = get_puzzle(args.puzzle)
+    
     #Generate a clean alphabet dictionary
     alpha_dict = generate_new_dict(puzzle)
     #Get associated with their patterns
-    word_bank = get_possible_words(puzzle)
+    word_bank = get_possible_words(puzzle, args.word_list)
 
     for i in range(10):
         alpha_dict = eliminate_choices(word_bank,alpha_dict)
