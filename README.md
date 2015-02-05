@@ -3,7 +3,16 @@
 This program solves the cryptoquips or cryptograms in the puzzle section of your newspaper. 
 
 ```bash
-usage: cryptoquip.pl puzzle.txt words.txt
+usage: cryptoquip.py [-h] puzzle word_list
+
+Solve your Sunday Cryptoquip!
+
+positional arguments:
+  puzzle      A text file that contains your Cryptoquip
+  word_list   A text file list of English words
+
+optional arguments:
+  -h, --help  show this help message and exit
 ```
 
 ##Input
