@@ -130,16 +130,23 @@ if __name__ == "__main__":
     alpha_dict = generate_new_dict(puzzle)
     #Get associated with their patterns
     word_bank = get_possible_words(puzzle, args.word_list)
-
-    for i in range(10):
+    old_alpha_dict = alpha_dict.copy()
+    iteration = 0 
+    while True:
         alpha_dict = eliminate_choices(word_bank,alpha_dict)
         alpha_dict = propagate(alpha_dict)
+        if alpha_dict == old_alpha_dict:
+            break
+        else:
+            old_alpha_dict = alpha_dict.copy()
+        iteration += 1
 
     solved = ""
     for i in puzzle:
         if i != ' ':
             solved += str(list(alpha_dict[i]))
         else:
-            solved += ' '
+            solved += '\n'
 
     print solved
+    print "No more decisions after %i iterations" % iteration
