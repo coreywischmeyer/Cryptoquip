@@ -22,10 +22,23 @@ TGIAB FZU TGPHVGHPB FPB GSB BTTBZVB QR F CQQW OPBFG KUBFT FPB SQOLFTS
 ```
 
 ##Output
-The output is actually the resulting set for each letter. For example, there wasn't enought information in the below result to decide if: `QR` is `OF`, `OX`, or `OK`, etc.
+The output is actually the resulting set for each letter. For example, there wasn't enough information in the below result to decide if: `QR` is `OF`, `OX`, or `OK`, etc.
 
 ```
-['S']['T']['Y']['L']['E'] ['A']['N']['D'] ['S']['T']['R']['U']['C']['T']['U']['R']['E'] ['A']['R']['E'] ['T']['H']['E'] ['E']['S']['S']['E']['N']['C']['E'] ['O']['X', 'K', 'B', 'Z', 'F'] ['A'] ['B', 'Z']['O']['O']['K', 'M'] ['G']['R']['E']['A']['T'] ['I']['D']['E']['A']['S'] ['A']['R']['E'] ['H']['O']['G']['W']['A']['S']['H']
+['S']['T']['Y']['L']['E']
+['A']['N']['D']
+['S']['T']['R']['U']['C']['T']['U']['R']['E']
+['A']['R']['E']
+['T']['H']['E']
+['E']['S']['S']['E']['N']['C']['E']
+['O']['X', 'K', 'B', 'Z', 'F']
+['A']
+['B', 'Z']['O']['O']['K', 'M']
+['G']['R']['E']['A']['T']
+['I']['D']['E']['A']['S']
+['A']['R']['E']
+['H']['O']['G']['W']['A']['S']['H']
+No more decisions after 3 iterations
 ```
 
 That means you'll have to decide which letter makes sense in some instances. 
