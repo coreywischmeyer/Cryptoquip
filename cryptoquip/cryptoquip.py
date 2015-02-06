@@ -1,12 +1,13 @@
 #!/usr/bin/python
 import argparse
+import string
 
 def pattern(word):
     """
     Take a word and return its pattern.
     For example HELLO would be ABCCD
     """
-    alphabet = [chr(i) for i in range(ord('A'),ord('Z'))]
+    alphabet = [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z'))]
     word_dict = {}
     pattern = ""
     for i in word:
@@ -105,11 +106,17 @@ def get_possible_words(puzzle, words_file):
     return word_choices
 
 def get_puzzle(filename):
+    '''
+    Get the puzzle and return the string for now we are going to ignore
+    punctuation.
+    '''
     fh = open(filename, 'r')
     puzzle = ''
     for line in fh:
         puzzle += " %s" % line.rstrip()
 
+    exclude = set(string.punctuation)
+    puzzle = ''.join(ch for ch in puzzle if ch not in exclude)
     return puzzle.strip()
 
 if __name__ == "__main__":
