@@ -1,13 +1,14 @@
 #!/usr/bin/python
 import argparse
 import string
+import re
 
 def pattern(word):
     """
     Take a word and return its pattern.
     For example HELLO would be ABCCD
     """
-    alphabet = [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z'))]
+    alphabet = [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z')+1)]
     word_dict = {}
     pattern = ""
     for i in word:
@@ -68,7 +69,7 @@ def filter_word_list_by_length(ciphertext, words_file):
     """
     word_lengths = {}
     word_bank = []
-    for word in  ciphertext.split(" "):
+    for word in ciphertext.split(" "):
         word_lengths[len(word)] = ""
 
     word_list = open(words_file, 'r')
@@ -109,15 +110,25 @@ def get_puzzle(filename):
     '''
     Get the puzzle and return the string for now we are going to ignore
     punctuation.
+    
+    We will also remove any words that have apostrophes, as they could be 
+    contractractions and not necessarily possessives.
     '''
     fh = open(filename, 'r')
-    puzzle = ''
-    for line in fh:
-        puzzle += " %s" % line.rstrip()
-
+    orig_puzzle = ''
+    puzzle_to_solve = ''
     exclude = set(string.punctuation)
-    puzzle = ''.join(ch for ch in puzzle if ch not in exclude)
-    return puzzle.strip()
+
+    for line in fh:
+        orig_puzzle += " %s" % line.rstrip()
+
+    for word in orig_puzzle.split(' '):
+        if "'" not in word:
+            puzzle_to_solve += "%s " % word
+
+    puzzle_to_solve = puzzle_to_solve.replace('-', ' ')
+    puzzle_to_solve = ''.join(ch for ch in puzzle_to_solve if ch not in exclude)
+    return puzzle_to_solve.strip(), orig_puzzle.strip()
 
 if __name__ == "__main__":
     
@@ -131,8 +142,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     alpha_dict = {}
-    puzzle = get_puzzle(args.puzzle)
-    
+    puzzle_tuple = get_puzzle(args.puzzle)
+    puzzle = puzzle_tuple[0] 
+
     #Generate a clean alphabet dictionary
     alpha_dict = generate_new_dict(puzzle)
     #Get associated with their patterns
@@ -149,11 +161,14 @@ if __name__ == "__main__":
         iteration += 1
 
     solved = ""
-    for i in puzzle:
-        if i != ' ':
+    print puzzle_tuple[1]
+    for i in puzzle_tuple[1]:
+        if i in [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z')+1)]:
             solved += str(list(alpha_dict[i]))
+        elif i is ' ':
+            solved += "\n"
         else:
-            solved += '\n'
+            solved += i
 
     print solved
     print "No more decisions after %i iterations" % iteration
