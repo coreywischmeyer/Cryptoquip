@@ -8,7 +8,7 @@ def pattern(word):
     Take a word and return its pattern.
     For example HELLO would be ABCCD
     """
-    alphabet = [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z')+1)]
+    alphabet = [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z') + 1 )]
     word_dict = {}
     pattern = ""
     for i in word:
@@ -45,9 +45,8 @@ def eliminate_choices(word_choices, alpha_dict):
                 letter_list = []
                 for word in filtered_list:
                     letter_list.append(word[i])
-
-                alpha_dict[cipher_word[i]] = alpha_dict[cipher_word[i]].intersection(set(letter_list))
-
+                alpha_dict[cipher_word[i]] = set(letter_list)
+                #alpha_dict[cipher_word[i]] = alpha_dict[cipher_word[i]].intersection(set(letter_list))
     return alpha_dict
 
 def propagate(alpha_dict):
@@ -80,8 +79,8 @@ def filter_word_list_by_length(ciphertext, words_file):
     return word_bank
 
 def generate_new_dict(puzzle):
-    for character in puzzle.replace(' ',''):
-        alphabet = [chr(i) for i in range(ord('A'),ord('Z') + 1)]
+    for character in [chr(i) for i in range(ord('A'),ord('Z') + 1)]: 
+        alphabet = [chr(i) for i in range(ord('A'),ord('Z') + 1 )]
         alpha_dict[character] = set(alphabet)
         alpha_dict[character].discard(character)
     return alpha_dict
@@ -145,9 +144,7 @@ if __name__ == "__main__":
     puzzle_tuple = get_puzzle(args.puzzle)
     puzzle = puzzle_tuple[0] 
 
-    #Generate a clean alphabet dictionary
     alpha_dict = generate_new_dict(puzzle)
-    #Get associated with their patterns
     word_bank = get_possible_words(puzzle, args.word_list)
     old_alpha_dict = alpha_dict.copy()
     iteration = 0 
@@ -159,16 +156,14 @@ if __name__ == "__main__":
         else:
             old_alpha_dict = alpha_dict.copy()
         iteration += 1
-
+    
     solved = ""
-    print puzzle_tuple[1]
     for i in puzzle_tuple[1]:
-        if i in [chr(ascii_code) for ascii_code in range(ord('A'), ord('Z')+1)]:
+        if i in alpha_dict:
             solved += str(list(alpha_dict[i]))
-        elif i is ' ':
+        if i == ' ':
             solved += "\n"
-        else:
-            solved += i
-
-    print solved
+        if i == '-':
+            solved += "-"
+    print solved 
     print "No more decisions after %i iterations" % iteration
